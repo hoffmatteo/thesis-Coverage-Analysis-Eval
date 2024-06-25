@@ -1,4 +1,4 @@
-Start Time,End Time,Absolute Coverage,Time Coverage,Deployment IDs,Description
+Start Time,End Time,Absolute Coverage,Expectation Coverage,Deployment IDs,Description
 2024-01-01T01:00,2024-01-01T09:00,0.5,0.5,7a46a288-7f8e-4242-bedf-ebc80bc9e693,Expectation for Location Service: 1 data points of type dk.cachet.carp.location in 1h
 2024-01-01T01:00,2024-01-01T09:00,0.75,0.75,301d0cb4-0482-411d-b58e-f347586dae84,Expectation for Location Service: 1 data points of type dk.cachet.carp.location in 1h
 2024-01-01T01:00,2024-01-01T09:00,0.625,0.625,09824317-e14c-4b48-9ddf-122d7aadaa87,Expectation for Location Service: 1 data points of type dk.cachet.carp.location in 1h

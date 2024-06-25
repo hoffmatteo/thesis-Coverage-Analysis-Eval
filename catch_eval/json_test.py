@@ -3,6 +3,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
+def split_description(description, max_length=50):
+    words = description.split()
+    if len(description) > max_length:
+        midpoint = (len(words) // 2) - 1
+        description = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+    return description
+
+
 # give overall study coverage for each timebox, scatter plot
 def overall_study_coverage():
     # Load the new CSV file
@@ -14,11 +22,11 @@ def overall_study_coverage():
 
     # Plot the line chart for Time Coverage over Start Time
     plt.figure(figsize=(14, 7))
-    plt.plot(data_study['Start Time'], data_study['Time Coverage'], marker='o', linestyle='-', color='b')
+    plt.plot(data_study['Start Time'], data_study['Expectation Coverage'], marker='o', linestyle='-', color='b')
 
-    plt.title('Time Coverage over Start Time for the entire study')
+    plt.title('Expectation Coverage over Start Time for the entire study')
     plt.xlabel('Start Time')
-    plt.ylabel('Time Coverage')
+    plt.ylabel('Expectation Coverage')
     plt.xticks(rotation=45)
     plt.grid(True)
     plt.tight_layout()
@@ -31,12 +39,13 @@ def overall_deployment_coverage():
 
     # Read CSV file into a pandas DataFrame
     data = pd.read_csv(csv_file_path)
+    data['Description'] = data['Description'].apply(split_description)
 
     # Pivot the DataFrame to get a matrix-like format, which is required for the heatmap
 
     sns.set(style="white")
     cmap = sns.diverging_palette(10, 220, as_cmap=True)
-    pivot_data = data.pivot(index='Description', columns='Start Time', values='Time Coverage')
+    pivot_data = data.pivot(index='Description', columns='Start Time', values='Expectation Coverage')
     plt.figure(figsize=(15, 10))
     ax = sns.heatmap(pivot_data, cmap=cmap, vmin=0, vmax=1, linewidth=0.5, square=True, annot=True)
     plt.tight_layout()
@@ -52,6 +61,7 @@ def deployment_coverage():
     # Load the CSV file
     csv_file_path = './test_datastreams.csv'
     data = pd.read_csv(csv_file_path)
+    data['Description'] = data['Description'].apply(split_description)
 
     unique_deployments = data['Deployment IDs'].unique()
     for deployment in unique_deployments:
@@ -59,7 +69,7 @@ def deployment_coverage():
 
         sns.set(style="white")
         cmap = sns.diverging_palette(10, 220, as_cmap=True)
-        pivot_data = deployment_data.pivot(index='Description', columns='Start Time', values='Time Coverage')
+        pivot_data = deployment_data.pivot(index='Description', columns='Start Time', values='Expectation Coverage')
         plt.figure(figsize=(15, 10))
         ax = sns.heatmap(pivot_data, cmap=cmap, vmin=0, vmax=1, linewidth=0.5, square=True, annot=True)
 
@@ -71,4 +81,4 @@ def deployment_coverage():
         plt.show()
 
 
-overall_study_coverage()
+overall_deployment_coverage()
